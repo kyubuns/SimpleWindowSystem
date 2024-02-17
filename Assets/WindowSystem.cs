@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -11,6 +12,7 @@ namespace SimpleWindowSystem
     public class WindowSystem : MonoBehaviour
     {
         public bool NeedFocus { get; private set; }
+        public UnityEvent<bool> NeedFocusChanged { get; } = new();
 
         [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
         [SerializeField] private Window firstWindowPrefab;
@@ -63,10 +65,11 @@ namespace SimpleWindowSystem
         {
             debugLabel.text = $"CurrentDevice: {device.name}";
 
-            var needFocus = device is Keyboard or Gamepad;
-            if (NeedFocus == needFocus) return;
+            var newNeedFocus = device is Keyboard or Gamepad;
+            if (NeedFocus == newNeedFocus) return;
 
-            NeedFocus = needFocus;
+            NeedFocus = newNeedFocus;
+            NeedFocusChanged.Invoke(NeedFocus);
             if (NeedFocus && EventSystem.current.currentSelectedGameObject == null)
             {
                 _windows.LastOrDefault()?.Activate(NeedFocus);
