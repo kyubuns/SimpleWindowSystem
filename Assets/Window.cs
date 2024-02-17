@@ -21,11 +21,14 @@ namespace SimpleWindowSystem
             _windowSystem = GetComponentInParent<WindowSystem>();
         }
 
-        public void Activate()
+        public void Activate(bool needFocus)
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.interactable = true;
-            EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
+            if (needFocus)
+            {
+                EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
+            }
 
             IsActive = true;
         }
