@@ -28,6 +28,8 @@ namespace SimpleWindowSystem
             _canvasGroup.interactable = true;
             if (needFocus)
             {
+                // _restoreTarget ?? firstSelected.gameObject って書きたいよね。
+                // GameObjectだからダメなんだよね。
                 EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
             }
 

@@ -14,10 +14,13 @@ namespace SimpleWindowSystem
         {
             _button = GetComponent<Button>();
 
+            // Gamepad/Keyboardのときは、Selectedの時だけ色を変えたい
+            // ここでHighlightedの色も変えていると、Gamepad/Keyboard操作中でもマウスカーソルが重なったときに色が変わってしまう
             _buttonColorForGamepadOrKeyboard = _button.colors;
             _buttonColorForGamepadOrKeyboard.highlightedColor = _button.colors.normalColor;
             _buttonColorForGamepadOrKeyboard.selectedColor = _button.colors.highlightedColor;
 
+            // Mouseのときは逆。
             _buttonColorForMouse = _button.colors;
             _buttonColorForMouse.highlightedColor = _button.colors.highlightedColor;
             _buttonColorForMouse.selectedColor = _button.colors.normalColor;

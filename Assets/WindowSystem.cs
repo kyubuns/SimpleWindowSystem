@@ -85,11 +85,15 @@ namespace SimpleWindowSystem
             var target = _windows.LastOrDefault();
             if (target == null) return;
 
+            // Cancelが消費されてるかが分からないので、TextBoxとかDropdownのキャンセルのつもりで押してもウィンドウが閉じちゃう
             target.CloseRequestByCancelButton();
         }
 
         public void Update()
         {
+            // こんな不毛なコード本当は書きたくない
+            // マウス操作中、一度押したボタンはSelected状態になり、たとえマウスカーソルを外して戻してもホバー状態（highlighted）には戻らない
+            // あまりに微妙なので強制的にフォーカスを外す
             if (!NeedFocus)
             {
                 EventSystem.current.SetSelectedGameObject(null);
