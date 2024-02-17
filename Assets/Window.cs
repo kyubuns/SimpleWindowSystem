@@ -7,10 +7,11 @@ namespace SimpleWindowSystem
     [RequireComponent(typeof(CanvasGroup))]
     public abstract class Window : MonoBehaviour
     {
+        public bool IsActive { get; private set; }
+
         [SerializeField] private Selectable firstSelected;
         [SerializeField] private bool restoreFocus;
-
-        public bool IsActive { get; private set; }
+        [SerializeField] private bool closeByCancelButton;
         private CanvasGroup _canvasGroup;
         private WindowSystem _windowSystem;
         private GameObject _restoreTarget;
@@ -38,7 +39,7 @@ namespace SimpleWindowSystem
             if (restoreFocus)
             {
                 var selected = EventSystem.current.currentSelectedGameObject;
-                if (selected.transform.IsChildOf(transform))
+                if (selected != null && selected.transform.IsChildOf(transform))
                 {
                     _restoreTarget = selected;
                 }
@@ -57,6 +58,12 @@ namespace SimpleWindowSystem
         protected void Close()
         {
             _windowSystem.Close(this);
+        }
+
+        public void CloseRequestByCancelButton()
+        {
+            if (!closeByCancelButton) return;
+            Close();
         }
     }
 }

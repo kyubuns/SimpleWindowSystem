@@ -10,11 +10,12 @@ namespace SimpleWindowSystem
 {
     public class WindowSystem : MonoBehaviour
     {
+        public bool NeedFocus { get; private set; }
+
         [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
         [SerializeField] private Window firstWindowPrefab;
         [SerializeField] private Text debugLabel;
         private readonly List<Window> _windows = new();
-        private bool _needFocus;
 
         public void Start()
         {
@@ -26,6 +27,8 @@ namespace SimpleWindowSystem
             inputSystemUIInputModule.middleClick.action.performed += EventReceived;
             inputSystemUIInputModule.rightClick.action.performed += EventReceived;
 
+            inputSystemUIInputModule.cancel.action.performed += OnCancel;
+
             Open(firstWindowPrefab);
         }
 
@@ -34,7 +37,7 @@ namespace SimpleWindowSystem
             _windows.LastOrDefault()?.Deactivate();
 
             var newWindowInstance = Instantiate(windowPrefab, transform);
-            newWindowInstance.Activate(_needFocus);
+            newWindowInstance.Activate(NeedFocus);
 
             _windows.Add(newWindowInstance);
         }
@@ -47,7 +50,7 @@ namespace SimpleWindowSystem
             var frontWindow = _windows.Last();
             if (!frontWindow.IsActive)
             {
-                frontWindow.Activate(_needFocus);
+                frontWindow.Activate(NeedFocus);
             }
         }
 
@@ -61,14 +64,30 @@ namespace SimpleWindowSystem
             debugLabel.text = $"CurrentDevice: {device.name}";
 
             var needFocus = device is Keyboard or Gamepad;
-            if (_needFocus == needFocus) return;
+            if (NeedFocus == needFocus) return;
 
-            _needFocus = needFocus;
-            if (_needFocus && EventSystem.current.currentSelectedGameObject == null)
+            NeedFocus = needFocus;
+            if (NeedFocus && EventSystem.current.currentSelectedGameObject == null)
             {
-                _windows.LastOrDefault()?.Activate(_needFocus);
+                _windows.LastOrDefault()?.Activate(NeedFocus);
             }
-            else if (!_needFocus && EventSystem.current.currentSelectedGameObject != null)
+            else if (!NeedFocus && EventSystem.current.currentSelectedGameObject != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+
+        private void OnCancel(InputAction.CallbackContext obj)
+        {
+            var target = _windows.LastOrDefault();
+            if (target == null) return;
+
+            target.CloseRequestByCancelButton();
+        }
+
+        public void Update()
+        {
+            if (!NeedFocus)
             {
                 EventSystem.current.SetSelectedGameObject(null);
             }
