@@ -65,7 +65,7 @@ namespace SimpleWindowSystem
         {
             debugLabel.text = $"CurrentDevice: {device.name}";
 
-            var newNeedFocus = device is Keyboard or Gamepad;
+            var newNeedFocus = device is not Pointer; // Pointerはマウスとかタッチスクリーンとか
             if (NeedFocus == newNeedFocus) return;
 
             NeedFocus = newNeedFocus;
