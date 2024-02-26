@@ -1,38 +1,84 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace SimpleWindowSystem
 {
-    [RequireComponent(typeof(Button))]
-    public class CommonButton : MonoBehaviour
+    public class CommonButton : Selectable, IPointerClickHandler, ISubmitHandler
     {
-        private Button _button;
-        private ColorBlock _buttonColorForGamepadOrKeyboard;
-        private ColorBlock _buttonColorForMouse;
+        [Serializable]
+        public class ButtonClickedEvent : UnityEvent {}
 
-        public void Awake()
+        [FormerlySerializedAs("onClick")]
+        [SerializeField]
+        private ButtonClickedEvent m_OnClick = new();
+
+        protected CommonButton()
         {
-            _button = GetComponent<Button>();
-
-            // Gamepad/Keyboardのときは、Selectedの時だけ色を変えたい
-            // ここでHighlightedの色も変えていると、Gamepad/Keyboard操作中でもマウスカーソルが重なったときに色が変わってしまう
-            _buttonColorForGamepadOrKeyboard = _button.colors;
-            _buttonColorForGamepadOrKeyboard.highlightedColor = _button.colors.normalColor;
-            _buttonColorForGamepadOrKeyboard.selectedColor = _button.colors.highlightedColor;
-
-            // Mouseのときは逆。
-            _buttonColorForMouse = _button.colors;
-            _buttonColorForMouse.highlightedColor = _button.colors.highlightedColor;
-            _buttonColorForMouse.selectedColor = _button.colors.normalColor;
-
-            var windowSystem = GetComponentInParent<WindowSystem>();
-            UpdateButtonColor(windowSystem.NeedFocus);
-            windowSystem.NeedFocusChanged.AddListener(UpdateButtonColor);
         }
 
-        private void UpdateButtonColor(bool needFocus)
+        public ButtonClickedEvent onClick
         {
-            _button.colors = needFocus ? _buttonColorForGamepadOrKeyboard : _buttonColorForMouse;
+            get => m_OnClick;
+            set => m_OnClick = value;
+        }
+
+        private void Press()
+        {
+            if (!IsActive() || !IsInteractable())
+            {
+                return;
+            }
+
+            UISystemProfilerApi.AddMarker("Button.onClick", this);
+            m_OnClick.Invoke();
+        }
+
+        public virtual void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+
+            Press();
+        }
+
+        public virtual void OnSubmit(BaseEventData eventData)
+        {
+            Press();
+
+            if (!IsActive() || !IsInteractable())
+            {
+                return;
+            }
+
+            DoStateTransition(SelectionState.Pressed, false);
+            StartCoroutine(OnFinishSubmit());
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
+            base.OnPointerEnter(eventData);
+        }
+
+        private IEnumerator OnFinishSubmit()
+        {
+            var fadeTime = colors.fadeDuration;
+            var elapsedTime = 0f;
+
+            while (elapsedTime < fadeTime)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            DoStateTransition(currentSelectionState, false);
         }
     }
 }

@@ -1,34 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.UI;
 
 namespace SimpleWindowSystem
 {
     public class WindowSystem : MonoBehaviour
     {
-        public bool NeedFocus { get; private set; }
-        public UnityEvent<bool> NeedFocusChanged { get; } = new();
-
         [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
         [SerializeField] private Window firstWindowPrefab;
-        [SerializeField] private Text debugLabel;
         private readonly List<Window> _windows = new();
 
         public void Start()
         {
-            UpdateDevice(InputSystem.devices.FirstOrDefault());
-            inputSystemUIInputModule.move.action.performed += EventReceived;
-            inputSystemUIInputModule.submit.action.performed += EventReceived;
-            inputSystemUIInputModule.cancel.action.performed += EventReceived;
-            inputSystemUIInputModule.leftClick.action.performed += EventReceived;
-            inputSystemUIInputModule.middleClick.action.performed += EventReceived;
-            inputSystemUIInputModule.rightClick.action.performed += EventReceived;
-
             inputSystemUIInputModule.cancel.action.performed += OnCancel;
 
             Open(firstWindowPrefab);
@@ -39,7 +24,7 @@ namespace SimpleWindowSystem
             _windows.LastOrDefault()?.Deactivate();
 
             var newWindowInstance = Instantiate(windowPrefab, transform);
-            newWindowInstance.Activate(NeedFocus);
+            newWindowInstance.Activate();
 
             _windows.Add(newWindowInstance);
         }
@@ -52,31 +37,7 @@ namespace SimpleWindowSystem
             var frontWindow = _windows.Last();
             if (!frontWindow.IsActive)
             {
-                frontWindow.Activate(NeedFocus);
-            }
-        }
-
-        private void EventReceived(InputAction.CallbackContext context)
-        {
-            UpdateDevice(context.control.device);
-        }
-
-        private void UpdateDevice(InputDevice device)
-        {
-            debugLabel.text = $"CurrentDevice: {device.name}";
-
-            var newNeedFocus = device is not Pointer; // Pointerはマウスとかタッチスクリーンとか
-            if (NeedFocus == newNeedFocus) return;
-
-            NeedFocus = newNeedFocus;
-            NeedFocusChanged.Invoke(NeedFocus);
-            if (NeedFocus && EventSystem.current.currentSelectedGameObject == null)
-            {
-                _windows.LastOrDefault()?.Activate(NeedFocus);
-            }
-            else if (!NeedFocus && EventSystem.current.currentSelectedGameObject != null)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
+                frontWindow.Activate();
             }
         }
 
@@ -85,19 +46,7 @@ namespace SimpleWindowSystem
             var target = _windows.LastOrDefault();
             if (target == null) return;
 
-            // Cancelが消費されてるかが分からないので、TextBoxとかDropdownのキャンセルのつもりで押してもウィンドウが閉じちゃう
             target.CloseRequestByCancelButton();
-        }
-
-        public void Update()
-        {
-            // こんな不毛なコード本当は書きたくない
-            // マウス操作中、一度押したボタンはSelected状態になり、たとえマウスカーソルを外して戻してもホバー状態（highlighted）には戻らない
-            // あまりに微妙なので強制的にフォーカスを外す
-            if (!NeedFocus)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-            }
         }
     }
 }

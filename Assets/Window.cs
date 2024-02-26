@@ -22,16 +22,12 @@ namespace SimpleWindowSystem
             _windowSystem = GetComponentInParent<WindowSystem>();
         }
 
-        public void Activate(bool needFocus)
+        public void Activate()
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.interactable = true;
-            if (needFocus)
-            {
-                // _restoreTarget ?? firstSelected.gameObject って書きたいよね。
-                // GameObjectだからダメなんだよね。
-                EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
-            }
+
+            EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
 
             IsActive = true;
         }

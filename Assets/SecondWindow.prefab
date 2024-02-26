@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcb91def4637411c903f6fa7c5fb8e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSelected: {fileID: 2979614358593645313}
+  firstSelected: {fileID: 5943941232663240832}
   restoreFocus: 0
   closeByCancelButton: 1
 --- !u!223 &8296710562027186498
@@ -328,20 +328,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: HogeButton
       objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 77007474424727571}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickDummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimpleWindowSystem.SecondWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Hoge
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
---- !u!114 &2979614358593645313 stripped
+--- !u!114 &5943941232663240832 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 349401770004255694, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
   m_PrefabInstance: {fileID: 3278871732561098959}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d856df744f4f4c23a444268d283f986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &7985020199487099186 stripped
@@ -460,6 +492,34 @@ PrefabInstance:
     - target: {fileID: 7990715272047145223, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
       propertyPath: m_Name
       value: CloseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 77007474424727571}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickClose
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimpleWindowSystem.SecondWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -586,6 +646,38 @@ PrefabInstance:
     - target: {fileID: 7990715272047145223, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
       propertyPath: m_Name
       value: FugaButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 77007474424727571}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickDummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimpleWindowSystem.SecondWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Fuga
+      objectReference: {fileID: 0}
+    - target: {fileID: 9222804108932487247, guid: e0fe01843acde4ddd9101dad3264f6d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
