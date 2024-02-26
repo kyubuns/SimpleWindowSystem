@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace SimpleWindowSystem
 {
-    public class CommonButton : Selectable, IPointerClickHandler, ISubmitHandler
+    public class CommonButton : Selectable, IPointerClickHandler, ISubmitHandler, IPointerMoveHandler
     {
         [Serializable]
         public class ButtonClickedEvent : UnityEvent {}
@@ -70,12 +70,6 @@ namespace SimpleWindowSystem
             Press();
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            EventSystem.current.SetSelectedGameObject(gameObject);
-            base.OnPointerEnter(eventData);
-        }
-
         public override void OnSelect(BaseEventData eventData)
         {
             _targetGraphic.color = selectedColor;
@@ -86,6 +80,15 @@ namespace SimpleWindowSystem
         {
             _targetGraphic.color = normalColor;
             base.OnDeselect(eventData);
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            if (EventSystem.current.currentSelectedGameObject == gameObject)
+            {
+                return;
+            }
+            EventSystem.current.SetSelectedGameObject(gameObject);
         }
     }
 }
