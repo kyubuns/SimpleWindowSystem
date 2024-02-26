@@ -26,6 +26,7 @@ namespace SimpleWindowSystem
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
 
             EventSystem.current.SetSelectedGameObject(_restoreTarget != null ? _restoreTarget : firstSelected.gameObject);
 
@@ -44,6 +45,7 @@ namespace SimpleWindowSystem
             }
             _canvasGroup.alpha = 0.5f;
             _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
 
             IsActive = false;
         }

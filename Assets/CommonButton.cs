@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -17,6 +17,11 @@ namespace SimpleWindowSystem
         [SerializeField]
         private ButtonClickedEvent m_OnClick = new();
 
+        [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private Color selectedColor = Color.yellow;
+        [SerializeField] private Color pressedColor = Color.cyan;
+        private Graphic _targetGraphic;
+
         protected CommonButton()
         {
         }
@@ -27,14 +32,26 @@ namespace SimpleWindowSystem
             set => m_OnClick = value;
         }
 
-        private void Press()
+        protected override void Awake()
+        {
+            base.Awake();
+            _targetGraphic = GetComponent<Graphic>();
+        }
+
+        private async void Press()
         {
             if (!IsActive() || !IsInteractable())
             {
                 return;
             }
 
-            UISystemProfilerApi.AddMarker("Button.onClick", this);
+            var eventSystem = EventSystem.current;
+            _targetGraphic.color = pressedColor;
+            eventSystem.gameObject.SetActive(false);
+            await Task.Delay(1000);
+            eventSystem.gameObject.SetActive(true);
+            _targetGraphic.color = selectedColor;
+
             m_OnClick.Invoke();
         }
 
@@ -51,14 +68,6 @@ namespace SimpleWindowSystem
         public virtual void OnSubmit(BaseEventData eventData)
         {
             Press();
-
-            if (!IsActive() || !IsInteractable())
-            {
-                return;
-            }
-
-            DoStateTransition(SelectionState.Pressed, false);
-            StartCoroutine(OnFinishSubmit());
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
@@ -67,18 +76,16 @@ namespace SimpleWindowSystem
             base.OnPointerEnter(eventData);
         }
 
-        private IEnumerator OnFinishSubmit()
+        public override void OnSelect(BaseEventData eventData)
         {
-            var fadeTime = colors.fadeDuration;
-            var elapsedTime = 0f;
+            _targetGraphic.color = selectedColor;
+            base.OnSelect(eventData);
+        }
 
-            while (elapsedTime < fadeTime)
-            {
-                elapsedTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
-
-            DoStateTransition(currentSelectionState, false);
+        public override void OnDeselect(BaseEventData eventData)
+        {
+            _targetGraphic.color = normalColor;
+            base.OnDeselect(eventData);
         }
     }
 }
