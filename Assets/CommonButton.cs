@@ -84,7 +84,7 @@ namespace SimpleWindowSystem
 
         public void OnPointerMove(PointerEventData eventData)
         {
-            if (EventSystem.current.currentSelectedGameObject == gameObject)
+            if (EventSystem.current == null || EventSystem.current.currentSelectedGameObject == gameObject)
             {
                 return;
             }
